@@ -39,13 +39,13 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
 
-- stage: Deploy staging
-  displayName: Deploy to staging
+- stage: DeployStaging
+  displayName: DeployStaging
   dependsOn: Build
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/staging'))
   jobs:
   - deployment: DeployStaging
-    displayName: Deploy staging
+    displayName: DeployStaging
     environment: staging
     pool:
       vmImage: $(vmImageName)
@@ -63,13 +63,13 @@ stages:
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
               startUpCommand: 'npm run start'
 
-- stage: Deploy prod
-  displayName: Deploy to prod
+- stage: DeployProd
+  displayName: DeployProd
   dependsOn: Build
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: DeployProd
-    displayName: Deploy prod
+    displayName: DeployProd
     environment: prod
     pool:
       vmImage: $(vmImageName)
